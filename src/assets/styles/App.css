@@ -142,6 +142,32 @@ header::after {
   height: var(--pokeball-thickness);
   background-color: var(--font-color);
 }
+/* ===== spinner ===== */
+.loader {
+  width: 1rem;
+  height: 1rem;
+  border: 1.5rem solid #fff;
+  border-color: var(--header-color) var(--header-color) #fff #fff;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+}
+
+.loader:before {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 0.75rem;
+  height: 0.75rem;
+  background: #fff;
+  border-radius: 50%;
+  border: calc(1rem / 8) solid var(--font-color);
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 /* ===== tablet styles ===== */
 @media screen and (min-width: 641px) {
   .scoreboard {
@@ -150,10 +176,18 @@ header::after {
   .grid {
     grid-template-columns: repeat(2, var(--base-card-width));
   }
+  .loader,
+  .error {
+    grid-column: 1 / span 2;
+  }
 }
 /* ===== desktop styles ===== */
 @media screen and (min-width: 1281px) {
   .grid {
     grid-template-columns: repeat(4, var(--base-card-width));
+  }
+  .loader,
+  .error {
+    grid-column: 2 / span 2;
   }
 }
