@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { getNRandomInt } from './utils/rng.js';
+import { getNRandomInt, shuffleArray } from './utils/rng.js';
 import Card from './components/Card.jsx';
 import './assets/styles/reset.css';
 import './assets/styles/App.css';
 
 export default function App() {
+  const [score, setScore] = useState({ streak: new Set(), wins: 0 });
   const [pokemon, setPokemon] = useState(null);
+
   useEffect(() => {
     let ignore = false;
     const getCachedData = () => {
@@ -49,13 +51,27 @@ export default function App() {
       ignore = true;
     };
   }, []);
+
+  function handleClick(id) {
+    if (!score.streak.has(id)) {
+      if (score.streak.size < pokemon.length - 1) {
+        const copy = new Set(score.streak);
+        copy.add(id);
+        setScore({ ...score, streak: copy });
+      } else setScore({ streak: new Set(), wins: score.wins + 1 });
+    } else setScore({ ...score, streak: new Set() });
+    const pokemonCopy = [...pokemon];
+    shuffleArray(pokemonCopy);
+    setPokemon(pokemonCopy);
+  }
+
   return (
     <>
       <header>
         <h1>POKÉMON memory game</h1>
         <div className="scoreboard">
-          <h3 className="streak">Streak: 0</h3>
-          <h3 className="score">Score: 0</h3>
+          <h3 className="streak">Streak: {score.streak.size}</h3>
+          <h3 className="score">Score: {score.wins}</h3>
         </div>
         <div className="pokeball-outer">
           <div className="pokeball-inner"></div>
@@ -69,7 +85,7 @@ export default function App() {
           {pokemon === null && <li className="loader"></li>}
           {Array.isArray(pokemon) &&
             pokemon.map((obj) => (
-              <li key={obj.id}>
+              <li key={obj.id} onClick={() => handleClick(obj.id)}>
                 <Card {...obj}></Card>
               </li>
             ))}
