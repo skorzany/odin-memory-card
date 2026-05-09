@@ -1,6 +1,6 @@
 # odin-memory-card
 
-A small memory game, made in React. The design is responsive, but some features are desktop-exclusive.<br/>You can play the game at [this link](#).
+A small memory game, made in React. The design is responsive, but some features are desktop-exclusive.<br/>You can play the game at [this link](https://odin-memory-card-iota.vercel.app/).
 
 ## Game rules
 
